@@ -1,9 +1,13 @@
 System Monitor Agent
 ====================
 
-Install agents so a system can be externally monitored.
+Installs check-mk system monitoring agent so a system can be externally monitored.
 
-TODO: Currently this also installs and enables xinetd, this could be moved into a separate role.
+Currently this defaults to installing a bundled version of check-mk-agent version 1.26 to be compatible with OMD 1.30 used by the OME.
+The current version of check-mk-agent in EPEL is 1.28, which is incompatible.
+
+See [Consol Labs OMD 1.30](https://labs.consol.de/nagios/omd-repository/index.html).
+
 
 Author Information
 ------------------

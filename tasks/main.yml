@@ -1,24 +1,56 @@
 ---
 # tasks file for roles/system-monitor-agent
 
-- name: system packages | install epel repo
-  become: yes
+- name: check-mk | remove distribution check-mk-agent
   yum:
-    name: epel-release
-    state: present
+    name: check-mk-agent
+    state: absent
 
-- name: system packages | check-mk agent
+# The EPEL check-mk-agent 1.28 package requires these
+# are they useful for 1.26?
+# - name: check-mk | install system dependencies
+#   yum:
+#     name: "{{ item }}"
+#     state: present
+#   with_items:
+#   - bind-libs
+#   - bind-utils
+#   - GeoIP
+
+- name: check-mk | install check-mk-agent
   become: yes
-  yum:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - check-mk-agent
-    - xinetd
+  copy:
+    src: omd-1.30-check-mk-agent-1.2.6p12
+    dest: /opt/
 
-- name: xinetd | start and enable
+- name: check-mk | script permissions
+  become: yes
+  file:
+    path: /opt/omd-1.30-check-mk-agent-1.2.6p12/bin/check_mk_agent.linux
+    mode: 0755
+
+- name: check-mk | install systemd files
+  become: yes
+  copy:
+    src: systemd/
+    dest: /etc/systemd/system/
+  register: system_monitor_systemd
+
+- name: check-mk | reload systemd
+  become: yes
+  command: systemctl daemon-reload
+  when: system_monitor_systemd.changed
+
+- name: check-mk | enable check-mk-agent
   become: yes
   service:
     enabled: yes
-    name: xinetd.service
+    name: check_mk.socket
     state: started
+
+#- name: xinetd | start and enable
+#  become: yes
+#  service:
+#    enabled: yes
+#    name: xinetd.service
+#    state: started
