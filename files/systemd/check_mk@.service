@@ -1,0 +1,16 @@
+# systemd service definition file
+[Unit]
+Description=Check_MK
+
+[Service]
+
+Environment=MK_LIBDIR="/opt/omd-1.30-check-mk-agent-1.2.6p12/lib"
+Environment=MK_CONFDIR="/opt/omd-1.30-check-mk-agent-1.2.6p12/etc"
+Environment=MK_VARDIR="/opt/omd-1.30-check-mk-agent-1.2.6p12/var"
+
+ExecStart=/opt/omd-1.30-check-mk-agent-1.2.6p12/bin/check_mk_agent.linux
+
+User=root
+Group=root
+
+StandardInput=socket
