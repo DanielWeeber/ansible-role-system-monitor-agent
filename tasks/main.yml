@@ -13,7 +13,7 @@
     name: "{{ item }}"
     state: present
   with_items:
-    - check-mk-agent
+    - check-mk-agent-1.2.6p16
     - xinetd
 
 - name: xinetd | start and enable
