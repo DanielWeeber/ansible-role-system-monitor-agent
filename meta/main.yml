@@ -8,6 +8,7 @@ galaxy_info:
   - name: EL
     versions:
     - 7
+  role_name: system_monitor_agent
   galaxy_tags: []
 
 dependencies: []
