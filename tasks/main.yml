@@ -38,6 +38,16 @@
     name: xinetd
   when: agent_check.stdout != "1.6.0p20"
   
+- name: check systemd version
+  shell: 
+    cmd: | 
+      systemd --version |head -n1 |tr -d 'systemd '
+  args:
+    warn: no
+  register: systemd_check
+  changed_when: false
+  when: agent_check.stdout != "1.6.0p20"
+  
 - name: set IPAllow for agent
   shell: 
     cmd: | 
@@ -46,7 +56,7 @@
     warn: no
   register: ipallow_check
   changed_when: false
-  when: agent_check.stdout != "1.6.0p20"
+  when: agent_check.stdout != "1.6.0p20" and systemd_check > 235
   
 - name: check check_mk service
   systemd:
