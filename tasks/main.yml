@@ -61,7 +61,7 @@
   debug: var=systemd_check.stdout
 - name: debug2
   debug: var=systemd_check.stdout
-  when: systemd_check | int > 235
+  when: systemd_check.stdout | int > 235
   
 - name: set IPAllow for agent
   shell: 
@@ -71,7 +71,7 @@
     warn: no
   register: ipallow_check
   changed_when: false
-  when: (agent_check.stdout != agent_local_check.stdout) and (systemd_check | int > 235)
+  when: (agent_check.stdout != agent_local_check.stdout) and (systemd_check.stdout | int > 235)
   
 - name: check check_mk service
   systemd:
