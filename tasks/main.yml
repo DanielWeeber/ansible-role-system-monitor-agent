@@ -9,7 +9,6 @@
     
 - name: Install my_package
   apt: deb="/tmp/checkmk.deb"
-  sudo: true
     
 - name: system packages | check-mk agent
   become: yes
