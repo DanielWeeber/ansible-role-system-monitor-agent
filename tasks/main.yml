@@ -23,7 +23,7 @@
 
 - name: check check_mk service
   systemd:
-    state: restarted
+    state: started
     daemon_reload: yes
     name: check_mk.socket
     enabled: yes
