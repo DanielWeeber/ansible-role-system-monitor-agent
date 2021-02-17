@@ -5,7 +5,7 @@
   local_action:
     shell: 
       cmd: | 
-        dpkg --info files/checkmk.deb |grep Version |tr -d ' Version: ' |sed 's/-1//'
+        dpkg --info /etc/ansible/files/checkmk.deb |grep Version |tr -d ' Version: ' |sed 's/-1//'
     args:
       warn: no
     register: agent_local_check
@@ -23,7 +23,7 @@
 - name: copy checkmk
   copy:
     dest: /tmp/checkmk.deb
-    src: check-mk-agent_1.6.0p20-1_all.deb
+    src: checkmk.deb
     owner: root
     group: root
     mode: 0644
