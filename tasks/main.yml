@@ -3,7 +3,7 @@
 
 - name: Download checkmk
   get_url:
-    url: https://172.16.254.98/twt/check_mk/agents/check-mk-agent_1.6.0p20-1_all.deb
+    url: http://172.16.254.98/slave1/check_mk/agents/check-mk-agent_1.6.0p20-1_all.deb
     dest: /tmp/checkmk.deb
     validate_certs: no
     
