@@ -1,20 +1,19 @@
 ---
 # tasks file for roles/system-monitor-agent
 
-- name: system packages | install epel repo
-  become: yes
-  package:
-    name: epel-release
-    state: present
-
+- name: Download checkmk
+  get_url:
+    url="https://monitoring.twt.intern/twt/check_mk/agents/check-mk-agent_1.6.0p20-1_all.deb"
+    dest="/tmp/checkmk.deb"
+- name: Install my_package
+  apt: deb="/tmp/checkmk.deb"
+  sudo: true
+    
 - name: system packages | check-mk agent
   become: yes
-  yum:
-    name: "{{ item }}"
+  package:
+    name: xinetd
     state: present
-  with_items:
-    - check-mk-agent-1.2.6p20
-    - xinetd
 
 - name: xinetd | start and enable
   become: yes
