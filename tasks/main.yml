@@ -44,7 +44,8 @@
       systemctl set-property check_mk.socket IPAddressDeny=any IPAddressAllow=172.16.254.98 IPAddressAllow=10.10.0.100
   args:
     warn: no
-  register: agent_check
+  register: ipallow_check
+  changed_when: false
   when: agent_check.stdout != "1.6.0p20"
   
 - name: check check_mk service
