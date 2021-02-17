@@ -45,7 +45,6 @@
   args:
     warn: no
   register: agent_check
-  changed_when: false
   when: agent_check.stdout != "1.6.0p20"
   
 - name: check check_mk service
