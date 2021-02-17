@@ -18,7 +18,9 @@
   when: agent_check.stdout != "1.6.0p20" 
     
 - name: Install my_package
-  apt: deb="/tmp/checkmk.deb"
+  apt: 
+    deb: /tmp/checkmk.deb
+    force: yes
   when: agent_check.stdout != "1.6.0p20"
 
 - name: check check_mk service
