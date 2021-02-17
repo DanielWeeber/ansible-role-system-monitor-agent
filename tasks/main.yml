@@ -6,6 +6,8 @@
   shell: 
     cmd: | 
       cat /usr/bin/check_mk_agent |grep "Version: 1.6.0p" |sed 's/echo //' |tr -d '"' |tr -d 'Version: '
+  args:
+    warn: no
   register: agent_check
     
 - name: copy checkmk
