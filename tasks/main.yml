@@ -65,7 +65,8 @@
     warn: no
   register: ipallow_check
   changed_when: false
-  when: agent_check.stdout != agent_local_check.stdout and systemd_check > 235
+  when: (agent_check.stdout != agent_local_check.stdout) and 
+        (systemd_check > 235)
   
 - name: check check_mk service
   systemd:
