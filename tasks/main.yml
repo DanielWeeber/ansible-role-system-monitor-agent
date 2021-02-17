@@ -50,7 +50,7 @@
 - name: check systemd version
   shell: 
     cmd: | 
-      systemd --version |head -n1 |tr -d 'systemd '
+      systemd --version |head -n1 |tr -d 'systemd ' | awk '{split($0,a,"("); print a[1]}'
   args:
     warn: no
   register: systemd_check
