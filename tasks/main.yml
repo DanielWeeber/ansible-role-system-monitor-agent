@@ -9,6 +9,7 @@
     args:
       warn: no
   register: agent_local_check
+  changed_when: false
     
 - name: Check if agent is up to date
   shell: 
