@@ -3,7 +3,9 @@
 
 
 - name: Check if agent is up to date
-  command: "cat /usr/bin/check_mk_agent |grep "Version: 1.6.0p" |sed 's/echo //' |tr -d '"' |tr -d 'Version: '"
+  shell: 
+    cmd: | 
+      cat /usr/bin/check_mk_agent |grep "Version: 1.6.0p" |sed 's/echo //' |tr -d '"' |tr -d 'Version: '
   register: agent_check
     
 - name: copy checkmk
