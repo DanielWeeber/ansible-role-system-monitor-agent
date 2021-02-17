@@ -59,6 +59,9 @@
   
 - name: debug
   debug: var=systemd_check.stdout
+- name: debug2
+  debug: var=systemd_check.stdout
+  when: systemd_check | int > 235
   
 - name: set IPAllow for agent
   shell: 
