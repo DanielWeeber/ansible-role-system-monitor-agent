@@ -3,12 +3,12 @@
 
 - name: get current checkmk version
   local_action: 
-    module: shell
-    cmd: | 
-       dpkg --info /etc/ansible/files/checkmk.deb |grep Version |tr -d ' Version: ' |sed 's/-1//'
-    args:
-      warn: no
-    register: agent_local_check
+    shell:
+      cmd: | 
+         dpkg --info /etc/ansible/files/checkmk.deb |grep Version |tr -d ' Version: ' |sed 's/-1//'
+      args:
+        warn: no
+      register: agent_local_check
     
 - name: Check if agent is up to date
   shell: 
