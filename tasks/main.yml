@@ -1,14 +1,6 @@
 ---
 # tasks file for roles/system-monitor-agent
 
-- name: Download checkmk
-  get_url:
-    url: http://172.16.254.98/slave1/check_mk/agents/check-mk-agent_1.6.0p20-1_all.deb
-    dest: /tmp/checkmk.deb
-    validate_certs: no
-    
-- name: Install my_package
-  apt: deb="/tmp/checkmk.deb"
     
 - name: system packages | check-mk agent
   become: yes
@@ -22,3 +14,15 @@
     enabled: yes
     name: xinetd.service
     state: started
+    
+- name: copy checkmk
+   copy:
+    dest: /tmp/checkmk.deb
+    src: check-mk-agent_1.6.0p20-1_all.deb
+    owner: root
+    group: root
+    mode: 0644
+    
+- name: Install my_package
+  apt: deb="/tmp/checkmk.deb"
+
