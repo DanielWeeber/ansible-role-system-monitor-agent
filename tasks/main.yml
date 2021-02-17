@@ -1,7 +1,16 @@
 ---
 # tasks file for roles/system-monitor-agent
 
-
+- name: get current checkmk version
+  local_action:
+    shell: 
+      cmd: | 
+        dpkg --info files/checkmk.deb |grep Version |tr -d ' Version: ' |sed 's/-1//'
+    args:
+      warn: no
+    register: agent_local_check
+    changed_when: false
+    
 - name: Check if agent is up to date
   shell: 
     cmd: | 
@@ -18,25 +27,25 @@
     owner: root
     group: root
     mode: 0644
-  when: agent_check.stdout != "1.6.0p20" 
+  when: agent_check.stdout != agent_local_check.stdout
 
 - name: Remove check-mk-agent
   apt:
     name: check-mk-agent
     state: absent
-  when: agent_check.stdout != "1.6.0p20"
+  when: agent_check.stdout != agent_local_check.stdout
   
 - name: Install check-mk-agent
   apt: 
     deb: /tmp/checkmk.deb
     force: yes
-  when: agent_check.stdout != "1.6.0p20"
+  when: agent_check.stdout != agent_local_check.stdout
   
 - name: remove xinetd
   package:
     state: absent
     name: xinetd
-  when: agent_check.stdout != "1.6.0p20"
+  when: agent_check.stdout != agent_local_check.stdout
   
 - name: check systemd version
   shell: 
@@ -46,7 +55,7 @@
     warn: no
   register: systemd_check
   changed_when: false
-  when: agent_check.stdout != "1.6.0p20"
+  when: agent_check.stdout != agent_local_check.stdout
   
 - name: set IPAllow for agent
   shell: 
@@ -56,7 +65,7 @@
     warn: no
   register: ipallow_check
   changed_when: false
-  when: agent_check.stdout != "1.6.0p20" and systemd_check > 235
+  when: agent_check.stdout != agent_local_check.stdout and systemd_check > 235
   
 - name: check check_mk service
   systemd:
@@ -64,5 +73,5 @@
     daemon_reload: yes
     name: check_mk.socket
     enabled: yes
-  when: agent_check.stdout != "1.6.0p20"
+  when: agent_check.stdout != agent_local_check.stdout
   
