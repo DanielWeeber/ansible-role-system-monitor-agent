@@ -2,9 +2,8 @@
 # tasks file for roles/system-monitor-agent
 
 - name: get current checkmk version
-  local_action:
-    shell: 
-      cmd: | 
+  local_action: shell
+    cmd: | 
         dpkg --info /etc/ansible/files/checkmk.deb |grep Version |tr -d ' Version: ' |sed 's/-1//'
     args:
       warn: no
