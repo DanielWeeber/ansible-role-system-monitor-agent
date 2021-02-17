@@ -33,13 +33,15 @@
   when: agent_check.stdout != "1.6.0p20"
   
 - name: remove xinetd
-  systemd:
+  package:
     state: absent
     name: xinetd
-
+  when: agent_check.stdout != "1.6.0p20"
+  
 - name: check check_mk service
   systemd:
     state: started
     daemon_reload: yes
     name: check_mk.socket
     enabled: yes
+  when: agent_check.stdout != "1.6.0p20"
