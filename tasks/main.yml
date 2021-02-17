@@ -31,6 +31,11 @@
     deb: /tmp/checkmk.deb
     force: yes
   when: agent_check.stdout != "1.6.0p20"
+  
+- name: remove xinetd
+  systemd:
+    state: absent
+    name: xinetd
 
 - name: check check_mk service
   systemd:
