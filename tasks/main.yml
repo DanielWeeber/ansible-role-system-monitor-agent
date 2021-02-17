@@ -3,7 +3,7 @@
 
 - name: system packages | install epel repo
   become: yes
-  yum:
+  package:
     name: epel-release
     state: present
 
