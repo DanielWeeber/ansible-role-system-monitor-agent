@@ -41,6 +41,16 @@
     force: yes
   when: agent_check.stdout != agent_local_check.stdout
   
+- name: check systemd version
+  shell: 
+    cmd: | 
+      systemd --version |head -n1 |tr -d 'systemd ' | awk '{split($0,a,"("); print a[1]}'
+  args:
+    warn: no
+  register: systemd_check
+  changed_when: false
+  when: agent_check.stdout != agent_local_check.stdout
+  
 - name: remove xinetd
   package:
     state: absent
@@ -53,15 +63,6 @@
     name: xinetd
   when: (agent_check.stdout != agent_local_check.stdout) and (systemd_check.stdout | int <= 235)
   
-- name: check systemd version
-  shell: 
-    cmd: | 
-      systemd --version |head -n1 |tr -d 'systemd ' | awk '{split($0,a,"("); print a[1]}'
-  args:
-    warn: no
-  register: systemd_check
-  changed_when: false
-  when: agent_check.stdout != agent_local_check.stdout
   
 - name: set IPAllow for agent
   shell: 
