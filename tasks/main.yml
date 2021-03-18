@@ -45,7 +45,13 @@
   package:
     state: absent
     name: xinetd
-  when: agent_check.stdout != agent_local_check.stdout
+  when: (agent_check.stdout != agent_local_check.stdout) and (systemd_check.stdout | int > 235)
+
+- name: install xinetd when old systemd
+  package:
+    state: present
+    name: xinetd
+  when: (agent_check.stdout != agent_local_check.stdout) and (systemd_check.stdout | int <= 235)
   
 - name: check systemd version
   shell: 
@@ -73,5 +79,5 @@
     daemon_reload: yes
     name: check_mk.socket
     enabled: yes
-  when: agent_check.stdout != agent_local_check.stdout
+  when: agent_check.stdout != agent_local_check.stdout and (systemd_check.stdout | int > 235)
   
